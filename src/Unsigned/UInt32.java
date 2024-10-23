@@ -2,32 +2,32 @@ package Unsigned;
 
 import java.lang.annotation.Native;
 
-@jdk.internal.ValueBased //Recent add
-public class UInt16 extends Number{
-    private final short uValue;
+@jdk.internal.ValueBased
+public class UInt32 extends Number {
+    private final int uValue;
 
-    @Native private static final int MAX_VALUE = 0xFFFF;
+    @Native private static final long MAX_VALUE = 0xFFFFFFFFL;
     @Native private static final byte MIN_VALUE = 0x00;
 
-    @Native public static final int SIZE = 16;
+    @Native public static final int SIZE = 32;
 
-    public UInt16(int value) {
+    public UInt32(long value) {
         if (value < MIN_VALUE || value > MAX_VALUE)
             throw new IllegalArgumentException("Value out of range");
 
-        this.uValue = (short) value;
+        this.uValue = (int) value;
     }
 
-    public UInt16 sum(UInt16 value) {
+    public UInt32 sum(UInt32 value) {
         if (value == null)
             throw new NullPointerException("Value is null");
 
-        var sum = this.intValue() + value.intValue();
+        var sum = this.longValue() + value.longValue();
 
         if (sum > MAX_VALUE)
             throw new IllegalArgumentException("Value out of range");
 
-        return new UInt16(sum);
+        return new UInt32(sum);
     }
 
     @Override
@@ -36,38 +36,38 @@ public class UInt16 extends Number{
 
         if (this == obj) return true;
 
-        if (!(obj instanceof UInt16)) return false;
+        if (!(obj instanceof UInt32)) return false;
 
-        return uValue == ((UInt16) obj).uValue;
+        return uValue == ((UInt32) obj).uValue;
     }
 
     @Override
     public int hashCode() {
-        return Short.hashCode(uValue);
+        return Integer.hashCode(uValue);
     }
 
     @Override
     public String toString() {
-        return Integer.toString(intValue());
+        return Long.toString(longValue());
     }
 
     @Override
     public int intValue() {
-        return uValue & 0xFFFF;
+        return (int) (uValue & 0xFFFFFFFFL);
     }
 
     @Override
     public long longValue() {
-        return uValue & 0xFFFF;
+        return uValue & 0xFFFFFFFFL;
     }
 
     @Override
     public float floatValue() {
-        return uValue & 0xFFFF;
+        return uValue & 0xFFFFFFFFL;
     }
 
     @Override
     public double doubleValue() {
-        return uValue & 0xFFFF;
+        return uValue & 0xFFFFFFFFL;
     }
 }
