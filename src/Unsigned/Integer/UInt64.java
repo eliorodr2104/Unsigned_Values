@@ -1,33 +1,29 @@
-package Unsigned;
+package Unsigned.Integer;
 
 import java.lang.annotation.Native;
 
 @jdk.internal.ValueBased
-public class UInt32 extends Number {
-    private final int uValue;
+public class UInt64 extends Number {
+    private final long uValue;
 
-    @Native private static final long MAX_VALUE = 0xFFFFFFFFL;
     @Native private static final byte MIN_VALUE = 0x00;
 
-    @Native public static final int SIZE = 32;
+    @Native public static final int SIZE = 64;
 
-    public UInt32(long value) {
-        if (value < MIN_VALUE || value > MAX_VALUE)
+    public UInt64(long value) {
+        if (value < MIN_VALUE)
             throw new IllegalArgumentException("Value out of range");
 
         this.uValue = (int) value;
     }
 
-    public UInt32 sum(UInt32 value) {
+    public UInt64 sum(UInt64 value) {
         if (value == null)
             throw new NullPointerException("Value is null");
 
         var sum = this.longValue() + value.longValue();
 
-        if (sum > MAX_VALUE)
-            throw new IllegalArgumentException("Value out of range");
-
-        return new UInt32(sum);
+        return new UInt64(sum);
     }
 
     @Override
@@ -36,14 +32,14 @@ public class UInt32 extends Number {
 
         if (this == obj) return true;
 
-        if (!(obj instanceof UInt32)) return false;
+        if (!(obj instanceof UInt64)) return false;
 
-        return uValue == ((UInt32) obj).uValue;
+        return uValue == ((UInt64) obj).uValue;
     }
 
     @Override
     public int hashCode() {
-        return Integer.hashCode(uValue);
+        return Long.hashCode(uValue);
     }
 
     @Override
@@ -53,21 +49,21 @@ public class UInt32 extends Number {
 
     @Override
     public int intValue() {
-        return (int) (uValue & 0xFFFFFFFFL);
+        return (int) uValue;
     }
 
     @Override
     public long longValue() {
-        return uValue & 0xFFFFFFFFL;
+        return uValue & 0x7FFFFFFFFFFFFFFFL;
     }
 
     @Override
     public float floatValue() {
-        return uValue & 0xFFFFFFFFL;
+        return uValue & 0x7FFFFFFFFFFFFFFFL;
     }
 
     @Override
     public double doubleValue() {
-        return uValue & 0xFFFFFFFFL;
+        return uValue & 0x7FFFFFFFFFFFFFFFL;
     }
 }
